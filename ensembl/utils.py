@@ -20,5 +20,11 @@ class SeqRegionTest(object):
 
     def test_seq_region(self):
         assert self.model.objects.all()[0].seq_region
+        
+    def test_sequence_lookup_returns_object_of_correct_length(self):
+        example = self.model.objects.all()[0]
+        assert len(example.sequence) == example.seq_region_end - example.seq_region_start
 
+    # def test_sequence_lookup_returns_object_in_correct_orientation(self):
+    #     assert(False)
 
