@@ -1,10 +1,10 @@
 class EnsemblRouter(object):
+    """ Base class for routing, allows reads and prevents everything else"""
 
     app = None
     database = None
 
     def db_for_read(self, model, **hints):
-        print model, model._meta.app_label
         if model._meta.app_label == self.app:
             return self.database
         return None

@@ -1,5 +1,5 @@
 import unittest
-from django.db import models
+import string
 
 
 class BasicTest(object):
@@ -28,3 +28,7 @@ class SeqRegionTest(object):
     # def test_sequence_lookup_returns_object_in_correct_orientation(self):
     #     assert(False)
 
+
+_rc_trans = string.maketrans('ACGTN', 'TGCAN')
+def reverse_complement(seq):
+    return string.translate(str(seq), _rc_trans)[::-1]

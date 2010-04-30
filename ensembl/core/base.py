@@ -1,4 +1,5 @@
 from django.db import models
+from ensembl.utils import reverse_complement
 
 
 class StableIdManager(models.Manager):
@@ -38,6 +39,7 @@ class HasSeqRegion(models.Model):
     seq_region = models.ForeignKey('SeqRegion')
     seq_region_start = models.IntegerField()
     seq_region_end = models.IntegerField()
+    seq_region_strand = models.IntegerField()
     
     def sequence_level_assemblies(self):
         """return the set of assemblies at the sequence level for this object"""
@@ -62,10 +64,20 @@ class HasSeqRegion(models.Model):
     @property 
     def sequence(self):
         """return the sequence for this object"""
+        
+        # fetch the component assemblies and their DNA and project coords into those
         components = self.sequence_level_assemblies().select_related('cmp_seq_region__dna').all()
         coords = self.projected_coords(components)
-        return ''.join([
+        
+        # build the sequence from the component parts
+        sequence = ''.join([
             component.cmp_seq_region.dna.sequence[start:end]
             for (component,(start, end)) in zip(components, coords)
         ])
+        
+        # reverse complement if necessary
+        if self.seq_region_strand == -1: 
+            sequence = reverse_complement(sequence)
+        
+        return sequence
 

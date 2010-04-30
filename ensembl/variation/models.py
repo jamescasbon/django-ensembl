@@ -243,7 +243,7 @@ class VariationFeature(HasSeqRegion):
     # seq_region_id = models.IntegerField()
     # seq_region_start = models.IntegerField()
     # seq_region_end = models.IntegerField()
-    seq_region_strand = models.IntegerField()
+    # seq_region_strand = models.IntegerField()
     variation = models.ForeignKey('Variation')
     allele_string = models.TextField(blank=True)
     variation_name = models.CharField(max_length=765, blank=True)
