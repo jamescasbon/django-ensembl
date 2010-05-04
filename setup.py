@@ -8,7 +8,7 @@ setup(
     author = 'James Casbon',
     author_email = 'casbon@gmail.com',
     url = '',
-    packages = ['enscore'],
+    packages = ['ensembl'],
     data_files = [],
     classifiers = ['Development Status :: 3 - Alpha',
                    'Environment :: Web Environment',
