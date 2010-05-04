@@ -1,0 +1,1 @@
+# this is needed since manage.py imports the project
