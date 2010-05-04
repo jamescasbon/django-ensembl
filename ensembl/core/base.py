@@ -3,7 +3,7 @@ from ensembl.utils import reverse_complement
 
 
 class StableIdManager(models.Manager):
-    """ This manager will automatically join on the stable id table"""
+    """ This manager will automatically follow some links """
 
     def get_query_set(self):
         return super(StableIdManager, self).get_query_set().select_related('stable_id')
@@ -16,13 +16,9 @@ class HasStableId(models.Model):
         abstract = True
         
     objects = StableIdManager()
-
-    @property
-    def stable_id(self):
-        return self._stable_id.stable_id
     
     def __unicode__(self):
-        return self.stable_id
+        return self.stable_id.stable_id
 
 
 class HasName(object):
@@ -32,6 +28,8 @@ class HasName(object):
         
 
 class HasSeqRegion(models.Model):
+
+    # TODO: manager for this class
 
     class Meta:
         abstract = True

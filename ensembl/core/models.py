@@ -193,7 +193,7 @@ class Exon(HasSeqRegion, HasStableId):
 
 
 class ExonStableId(models.Model):
-    exon = models.OneToOneField('Exon', primary_key=True, related_name='_stable_id')
+    exon = models.OneToOneField('Exon', primary_key=True, related_name='stable_id')
     stable_id = models.CharField(max_length=384)
     version = models.IntegerField(null=True, blank=True)
     created_date = models.DateTimeField()
@@ -274,7 +274,7 @@ class Gene(HasSeqRegion, HasStableId):
 
 
 class GeneStableId(models.Model):
-    gene = models.OneToOneField('Gene', primary_key=True, related_name='_stable_id')
+    gene = models.OneToOneField('Gene', primary_key=True, related_name='stable_id')
     stable_id = models.CharField(max_length=384)
     version = models.IntegerField(null=True, blank=True)
     created_date = models.DateTimeField()
@@ -672,7 +672,7 @@ class Transcript(HasSeqRegion, HasStableId):
 
 
 class TranscriptStableId(models.Model):
-    transcript = models.OneToOneField('Transcript', primary_key=True, related_name='_stable_id')
+    transcript = models.OneToOneField('Transcript', primary_key=True, related_name='stable_id')
     stable_id = models.CharField(max_length=384)
     version = models.IntegerField(null=True, blank=True)
     created_date = models.DateTimeField()
