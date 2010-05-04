@@ -202,7 +202,7 @@ class ExonStableId(models.Model):
         db_table = u'exon_stable_id'
 
 
-##### ExonTranscript is specified by the ManyToManyFieldExon.transcripts
+##### ExonTranscript is specified by the ManyToManyField Exon.transcripts
 #   
 # class ExonTranscript(models.Model):
 #     exon = models.ForeignKey(Exon)
