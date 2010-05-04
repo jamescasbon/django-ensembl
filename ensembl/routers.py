@@ -9,6 +9,9 @@ class EnsemblRouter(object):
 
     def db_for_read(self, model, **hints):
         return self.db_lookup.get(model._meta.app_label, 'default')
+        
+    def db_for_write(self, model, **hints):
+        return self.db_lookup.get(model._meta.app_label, 'default')
 
     def allow_syncdb(self, db, model):
         if model._meta.app_label in self.db_lookup: 

@@ -204,12 +204,12 @@ class ExonStableId(models.Model):
 
 ##### ExonTranscript is specified by the ManyToManyField Exon.transcripts
 #   
-# class ExonTranscript(models.Model):
-#     exon = models.ForeignKey(Exon)
-#     transcript_id = models.IntegerField()
-#     rank = models.IntegerField(primary_key=True)
-#     class Meta:
-#         db_table = u'exon_transcript'
+class ExonTranscript(models.Model):
+    exon = models.ForeignKey(Exon)
+    transcript = models.ForeignKey('Transcript')
+    rank = models.IntegerField(primary_key=True)
+    class Meta:
+        db_table = u'exon_transcript'
 # 
 # class ExternalDb(models.Model):
 #     external_db_id = models.IntegerField(primary_key=True)
@@ -688,16 +688,16 @@ class TranscriptStableId(models.Model):
 #     class Meta:
 #         db_table = u'transcript_supporting_feature'
 # 
-# class Translation(models.Model):
-#     translation_id = models.IntegerField(primary_key=True)
-#     transcript_id = models.IntegerField()
-#     seq_start = models.IntegerField()
-#     start_exon_id = models.IntegerField()
-#     seq_end = models.IntegerField()
-#     end_exon_id = models.IntegerField()
-#     class Meta:
-#         db_table = u'translation'
-# 
+class Translation(models.Model):
+    translation_id = models.IntegerField(primary_key=True)
+    transcript = models.ForeignKey('Transcript')
+    seq_start = models.IntegerField()
+    start_exon = models.ForeignKey('Exon', related_name='start_exon_set')
+    seq_end = models.IntegerField()
+    end_exon = models.ForeignKey('Exon', related_name='end_exon_set')
+    class Meta:
+        db_table = u'translation'
+
 # class TranslationAttrib(models.Model):
 #     translation_id = models.IntegerField()
 #     attrib_type_id = models.IntegerField()
