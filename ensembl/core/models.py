@@ -688,9 +688,9 @@ class TranscriptStableId(models.Model):
 #     class Meta:
 #         db_table = u'transcript_supporting_feature'
 # 
-class Translation(models.Model):
+class Translation(HasStableId):
     translation_id = models.IntegerField(primary_key=True)
-    transcript = models.ForeignKey('Transcript')
+    transcript = models.OneToOneField('Transcript')
     seq_start = models.IntegerField()
     start_exon = models.ForeignKey('Exon', related_name='start_exon_set')
     seq_end = models.IntegerField()
@@ -704,16 +704,16 @@ class Translation(models.Model):
 #     value = models.TextField()
 #     class Meta:
 #         db_table = u'translation_attrib'
-# 
-# class TranslationStableId(models.Model):
-#     translation_id = models.IntegerField(primary_key=True)
-#     stable_id = models.CharField(max_length=384)
-#     version = models.IntegerField(null=True, blank=True)
-#     created_date = models.DateTimeField()
-#     modified_date = models.DateTimeField()
-#     class Meta:
-#         db_table = u'translation_stable_id'
-# 
+ 
+class TranslationStableId(models.Model):
+    translation = models.OneToOneField('Translation', primary_key=True, related_name='stable_id')
+    stable_id = models.CharField(max_length=384)
+    version = models.IntegerField(null=True, blank=True)
+    created_date = models.DateTimeField()
+    modified_date = models.DateTimeField()
+    class Meta:
+        db_table = u'translation_stable_id'
+ 
 # class UnconventionalTranscriptAssociation(models.Model):
 #     transcript_id = models.IntegerField()
 #     gene_id = models.IntegerField()
