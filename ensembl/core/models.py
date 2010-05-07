@@ -210,23 +210,23 @@ class ExonTranscript(models.Model):
     rank = models.IntegerField(primary_key=True)
     class Meta:
         db_table = u'exon_transcript'
-# 
-# class ExternalDb(models.Model):
-#     external_db_id = models.IntegerField(primary_key=True)
-#     db_name = models.CharField(max_length=300)
-#     db_release = models.CharField(max_length=765, blank=True)
-#     status = models.CharField(max_length=27)
-#     dbprimary_acc_linkable = models.IntegerField()
-#     display_label_linkable = models.IntegerField()
-#     priority = models.IntegerField()
-#     db_display_name = models.CharField(max_length=765, blank=True)
-#     type = models.CharField(max_length=54, blank=True)
-#     secondary_db_name = models.CharField(max_length=765, blank=True)
-#     secondary_db_table = models.CharField(max_length=765, blank=True)
-#     description = models.TextField(blank=True)
-#     class Meta:
-#         db_table = u'external_db'
-# 
+
+class ExternalDb(models.Model):
+    external_db_id = models.IntegerField(primary_key=True)
+    db_name = models.CharField(max_length=300)
+    db_release = models.CharField(max_length=765, blank=True)
+    status = models.CharField(max_length=27)
+    dbprimary_acc_linkable = models.IntegerField()
+    display_label_linkable = models.IntegerField()
+    priority = models.IntegerField()
+    db_display_name = models.CharField(max_length=765, blank=True)
+    type = models.CharField(max_length=54, blank=True)
+    secondary_db_name = models.CharField(max_length=765, blank=True)
+    secondary_db_table = models.CharField(max_length=765, blank=True)
+    description = models.TextField(blank=True)
+    class Meta:
+        db_table = u'external_db'
+#
 # class ExternalSynonym(models.Model):
 #     xref_id = models.IntegerField(primary_key=True)
 #     synonym = models.CharField(max_length=120)
@@ -242,7 +242,7 @@ class Gene(HasSeqRegion, HasStableId):
     # seq_region_start = models.IntegerField()
     # seq_region_end = models.IntegerField()
     # seq_region_strand = models.IntegerField()
-    display_xref_id = models.IntegerField(null=True, blank=True)
+    display_xref = models.ForeignKey('Xref', null=True, blank=True)
     source = models.CharField(max_length=60)
     status = models.CharField(max_length=57, blank=True)
     description = models.TextField(blank=True)
@@ -742,16 +742,16 @@ class TranslationStableId(models.Model):
 #     full_description = models.CharField(max_length=765, blank=True)
 #     class Meta:
 #         db_table = u'unmapped_reason'
-# 
-# class Xref(models.Model):
-#     xref_id = models.IntegerField(primary_key=True)
-#     external_db_id = models.IntegerField(unique=True)
-#     dbprimary_acc = models.CharField(unique=True, max_length=120)
-#     display_label = models.CharField(max_length=384)
-#     version = models.CharField(max_length=30)
-#     description = models.TextField(blank=True)
-#     info_type = models.CharField(max_length=54, blank=True)
-#     info_text = models.CharField(unique=True, max_length=255, blank=True)
-#     class Meta:
-#         db_table = u'xref'
-# 
+ 
+class Xref(models.Model):
+    xref_id = models.IntegerField(primary_key=True)
+    external_db = models.ForeignKey('ExternalDb')
+    dbprimary_acc = models.CharField(unique=True, max_length=120)
+    display_label = models.CharField(max_length=384)
+    version = models.CharField(max_length=30)
+    description = models.TextField(blank=True)
+    info_type = models.CharField(max_length=54, blank=True)
+    info_text = models.CharField(unique=True, max_length=255, blank=True)
+    class Meta:
+        db_table = u'xref'
+
