@@ -67,12 +67,18 @@ class HasSeqRegion(models.Model):
         components = self.sequence_level_assemblies().select_related('cmp_seq_region__dna').all()
         coords = self.projected_coords(components)
         
-        # build the sequence from the component parts
-        sequence = ''.join([
-            component.cmp_seq_region.dna.sequence[start:end]
-            for (component,(start, end)) in zip(components, coords)
-        ])
+        # for c in components:
+        #     print c.asm_start, c.asm_end, c.cmp_start, c.cmp_end, 
+        # print coords
         
+        # build the sequence from the component parts
+        sequence = ''
+        for (component,(start, end)) in zip(components, coords):
+            # TODO: only fetch subseq 
+            subseq = component.cmp_seq_region.dna.sequence[component.cmp_start-1:component.cmp_end]
+            if component.ori== -1: subseq=reverse_complement(subseq)
+            sequence += subseq[start:end]
+            
         # reverse complement if necessary
         if self.seq_region_strand == -1: 
             sequence = reverse_complement(sequence)

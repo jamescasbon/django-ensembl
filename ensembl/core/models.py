@@ -562,7 +562,7 @@ class GeneStableId(models.Model):
 class SeqRegion(models.Model, HasName):
     seq_region_id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=120)
-    coord_system = models.ForeignKey('CoordSystem')
+    coord_system = models.ForeignKey(CoordSystem)
     length = models.IntegerField()
     class Meta:
         db_table = u'seq_region'

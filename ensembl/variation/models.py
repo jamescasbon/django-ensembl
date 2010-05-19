@@ -30,15 +30,15 @@ from ensembl.core.models import HasSeqRegion, HasName, HasStableId
 #     class Meta:
 #         db_table = u'allele_group_allele'
 # 
-# class CompressedGenotypeSingleBp(models.Model):
-#     sample_id = models.IntegerField()
-#     seq_region_id = models.IntegerField()
-#     seq_region_start = models.IntegerField()
-#     seq_region_end = models.IntegerField()
-#     seq_region_strand = models.IntegerField()
-#     genotypes = models.TextField(blank=True)
-#     class Meta:
-#         db_table = u'compressed_genotype_single_bp'
+class CompressedGenotypeSingleBp(models.Model):
+    sample = models.ForeignKey('Sample', primary_key=True)
+    seq_region_id = models.IntegerField(primary_key=True)
+    seq_region_start = models.IntegerField(primary_key=True)
+    seq_region_end = models.IntegerField()
+    seq_region_strand = models.IntegerField()
+    genotypes = models.TextField(blank=True)
+    class Meta:
+        db_table = u'compressed_genotype_single_bp'
 # 
 # class FailedDescription(models.Model):
 #     failed_description_id = models.IntegerField(primary_key=True)
@@ -157,14 +157,14 @@ from ensembl.core.models import HasSeqRegion, HasName, HasStableId
 #     class Meta:
 #         db_table = u'read_coverage'
 # 
-# class Sample(models.Model):
-#     sample_id = models.IntegerField(primary_key=True)
-#     name = models.CharField(max_length=765)
-#     size = models.IntegerField(null=True, blank=True)
-#     description = models.TextField(blank=True)
-#     display = models.CharField(max_length=39, blank=True)
-#     class Meta:
-#         db_table = u'sample'
+class Sample(models.Model):
+    sample_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=765)
+    size = models.IntegerField(null=True, blank=True)
+    description = models.TextField(blank=True)
+    display = models.CharField(max_length=39, blank=True)
+    class Meta:
+        db_table = u'sample'
 # 
 # class SampleSynonym(models.Model):
 #     sample_synonym_id = models.IntegerField(primary_key=True)
@@ -249,7 +249,7 @@ class VariationFeature(HasSeqRegion):
     variation_name = models.CharField(max_length=765, blank=True)
     map_weight = models.IntegerField()
     flags = models.CharField(max_length=27, blank=True)
-    source_id = models.IntegerField()
+    source = models.ForeignKey(Source)
     validation_status = models.CharField(max_length=117, blank=True)
     consequence_type = models.CharField(max_length=795)
     class Meta:
