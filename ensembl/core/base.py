@@ -53,8 +53,8 @@ class HasSeqRegion(models.Model):
         """ project the coordinates of this object into assemblies """
         return [
             (
-                max(self.seq_region_start - component.asm_start,0) + component.cmp_start, 
-                min(self.seq_region_end - component.asm_start + component.cmp_start, component.cmp_end)
+                max(self.seq_region_start - component.asm_start,0), 
+                min(self.seq_region_end - component.asm_start, component.cmp_end)
             )
             for component in assemblies
         ]
@@ -68,20 +68,20 @@ class HasSeqRegion(models.Model):
         coords = self.projected_coords(components)
         
         # for c in components:
-        #     print c.asm_start, c.asm_end, c.cmp_start, c.cmp_end, 
+        #     print c.asm_start, c.asm_end, c.cmp_start, c.cmp_end, c.ori
         # print coords
         
         # build the sequence from the component parts
         sequence = ''
         for (component,(start, end)) in zip(components, coords):
-            # TODO: only fetch subseq 
-            subseq = component.cmp_seq_region.dna.sequence[component.cmp_start-1:component.cmp_end]
+            # TODO: only fetch subseq from database
+            subseq = component.cmp_seq_region.dna.sequence[component.cmp_start-1:component.cmp_end-1]
             if component.ori== -1: subseq=reverse_complement(subseq)
             sequence += subseq[start:end]
             
-        # reverse complement if necessary
+        # reverse complement restult if necessary
         if self.seq_region_strand == -1: 
             sequence = reverse_complement(sequence)
-        
+                
         return sequence
 
