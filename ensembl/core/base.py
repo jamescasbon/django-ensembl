@@ -2,6 +2,7 @@ from django.db import models
 from ensembl.utils import reverse_complement
 import logging; log = logging.getLogger(__name__)
 
+
 class StableIdManager(models.Manager):
     """ This manager will automatically follow some links """
 
@@ -38,9 +39,10 @@ class HasSeqRegion(models.Model):
     seq_region_start = models.IntegerField()
     seq_region_end = models.IntegerField()
     seq_region_strand = models.IntegerField()
-    
+
+    # disableb because zero length features are a problem with django 
     def __len__(self):
-        return self.seq_region_end - self.seq_region_start
+        return abs(self.seq_region_end - self.seq_region_start)
     
     def sequence_level_assemblies(self):
         """return the set of assemblies at the sequence level for this object"""
